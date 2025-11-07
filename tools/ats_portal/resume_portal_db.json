@@ -1,0 +1,8 @@
+{
+  "admin": {
+    "salt": "f74eec6eb78e3d351a69a30eb545aae8",
+    "pw_hash": "2cd9f8a02de44425e2a01c9fc8bf99026e232fa1268ff3c56512f78bad6d7818",
+    "default_resume": null,
+    "history": []
+  }
+}

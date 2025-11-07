@@ -1,0 +1,24 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OMNI_AI Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-50 text-gray-800">
+    <nav class="bg-indigo-600 text-white p-4 shadow-lg">
+        <h1 class="text-2xl font-semibold">OMNI_AI</h1>
+    </nav>
+
+    <main class="container mx-auto mt-10 px-4">
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <footer class="bg-gray-800 text-gray-200 text-center py-4 mt-10">
+        <p>© 2025 OMNI_AI Suite — All rights reserved</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,13 @@
+Flask
+fuzzywuzzy
+python-Levenshtein
+playwright
+PyPDF2
+docx2txt
+tk
+selenium
+spacy
+pymupdf
+pdfplumber
+webdriver-manager
+gradio

@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="min-h-screen bg-gray-50 dark:bg-gray-900 flex flex-col items-center justify-center p-8">
+  <h1 class="text-4xl font-extrabold text-indigo-600 mb-6">🧠 AI Text Detector</h1>
+  <p class="text-gray-600 dark:text-gray-300 mb-6 text-center">Upload any <strong>.txt, .docx,</strong> or <strong>.pdf</strong> file to check how likely it is AI-generated.</p>
+
+  <form action="/" method="POST" enctype="multipart/form-data" class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 w-full max-w-md">
+    <input type="file" name="file" accept=".txt,.pdf,.docx" required class="w-full p-3 border border-gray-300 dark:border-gray-600 rounded mb-4 bg-gray-50 dark:bg-gray-700">
+    <button type="submit" class="w-full py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition">🔍 Analyze</button>
+  </form>
+
+  {% if result %}
+  <div class="mt-8 bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg w-full max-w-2xl text-center">
+    <h2 class="text-2xl font-semibold text-indigo-600 dark:text-indigo-400 mb-2">{{ result }}</h2>
+    <p class="text-gray-700 dark:text-gray-300">{{ explanation }}</p>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

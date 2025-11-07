@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="max-w-3xl mx-auto p-6 bg-white dark:bg-gray-800 rounded-2xl shadow-lg mt-8">
+  <h1 class="text-3xl font-bold mb-4 text-indigo-600">🧾 OneFill – Google Form Autofiller</h1>
+  <form action="/onefill/scan" method="POST">
+    <label class="block mb-2 font-semibold">Enter up to 3 Google Form URLs (one per line):</label>
+    <textarea name="form_urls" rows="4" class="w-full p-3 border rounded mb-4" required></textarea>
+    <button class="bg-indigo-600 text-white px-6 py-2 rounded-lg hover:bg-indigo-700">Scan Fields</button>
+  </form>
+</div>
+{% endblock %}
