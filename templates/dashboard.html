@@ -1,29 +1,61 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="min-h-screen bg-gray-50 dark:bg-gray-900 flex flex-col items-center justify-center p-8">
-  <h1 class="text-4xl font-bold mb-8 text-gray-800 dark:text-white">
-    🧠 Planova AI Tools Suite
-  </h1>
+<div class="min-h-screen flex flex-col items-center justify-center text-center 
+            bg-gradient-to-b from-gray-900 via-gray-950 to-gray-900 text-white 
+            px-6 py-12 relative overflow-hidden">
 
-  <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 w-full max-w-6xl">
+  <!-- Floating gradient orbs for animation -->
+  <div class="absolute inset-0 -z-10">
+    <div class="absolute top-1/3 left-1/4 w-72 h-72 bg-blue-600/20 rounded-full blur-3xl animate-pulse"></div>
+    <div class="absolute bottom-1/3 right-1/4 w-80 h-80 bg-pink-600/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
+  </div>
+
+  <!-- Title -->
+  <h1 class="text-5xl font-bold bg-gradient-to-r from-blue-400 via-purple-400 to-pink-500 bg-clip-text text-transparent mb-4 animate-fade-in">
+    🧠 Omni_AI Tools Suite
+  </h1>
+  <p class="text-gray-300 mb-10 text-lg">Your centralized AI workspace — automate, analyze, and enhance with intelligence.</p>
+
+  <!-- Tools Grid -->
+  <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 w-full max-w-6xl animate-fade-up">
 
     <!-- OneFill -->
-    <a href="/onefill" class="group bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 hover:scale-105 transition">
-      <h2 class="text-2xl font-semibold mb-2 text-blue-600 dark:text-blue-400">🧾 OneFill – Google Form Autofiller</h2>
-      <p class="text-gray-600 dark:text-gray-300">Auto-fill multiple Google Forms intelligently.</p>
+    <a href="/onefill" class="group bg-gray-800/50 backdrop-blur-lg rounded-2xl shadow-lg p-6 border border-gray-700 hover:border-blue-500 hover:scale-105 transition-all duration-300">
+      <h2 class="text-2xl font-semibold mb-2 text-blue-400 group-hover:text-blue-300">🧾 OneFill</h2>
+      <p class="text-gray-400">Auto-fill multiple Google Forms instantly using AI-based field mapping and smart recognition.</p>
     </a>
 
-    <!-- ATS Resume Analyzer -->
-    <a href="/ats" class="group bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 hover:scale-105 transition">
-      <h2 class="text-2xl font-semibold mb-2 text-green-600 dark:text-green-400">💼 ATS Resume Analyzer Portal</h2>
-      <p class="text-gray-600 dark:text-gray-300">Analyze resumes, get ATS score, and hiring insights.</p>
+    <!-- ATS Analyzer -->
+    <a href="/ats" class="group bg-gray-800/50 backdrop-blur-lg rounded-2xl shadow-lg p-6 border border-gray-700 hover:border-green-500 hover:scale-105 transition-all duration-300">
+      <h2 class="text-2xl font-semibold mb-2 text-green-400 group-hover:text-green-300">💼 ATS Analyzer</h2>
+      <p class="text-gray-400">Get AI-powered resume insights, optimize keywords, and boost your ATS score effortlessly.</p>
     </a>
 
     <!-- AI Text Detector -->
-    <a href="/text-detector" class="group bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 hover:scale-105 transition">
-      <h2 class="text-2xl font-semibold mb-2 text-red-600 dark:text-red-400">🧠 AI Text Detector</h2>
-      <p class="text-gray-600 dark:text-gray-300">Detect whether text was written by AI or human.</p>
+    <a href="/text-detector" class="group bg-gray-800/50 backdrop-blur-lg rounded-2xl shadow-lg p-6 border border-gray-700 hover:border-pink-500 hover:scale-105 transition-all duration-300">
+      <h2 class="text-2xl font-semibold mb-2 text-pink-400 group-hover:text-pink-300">🧠 AI Text Detector</h2>
+      <p class="text-gray-400">Detect whether text was AI-generated or human-written with instant accuracy and analysis.</p>
     </a>
+
   </div>
+
+  <!-- Footer -->
+  <footer class="mt-16 text-gray-500 text-sm">
+    © 2025 <span class="text-purple-400">Omni_AI Suite</span> — Powered by Planova Technologies ⚡
+  </footer>
 </div>
+
+<!-- Animations -->
+<style>
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in { animation: fade-in 1s ease forwards; }
+.animate-fade-up { animation: fade-up 1.2s ease forwards; }
+</style>
 {% endblock %}

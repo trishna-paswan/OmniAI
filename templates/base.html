@@ -1,24 +1,81 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OMNI_AI Dashboard</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Omni_AI Dashboard</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+  <script>
+    if (localStorage.theme === 'dark' ||
+        (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  </script>
+  <style>
+    .gradient-nav {
+      background: linear-gradient(90deg, #4f46e5, #9333ea, #ec4899);
+      background-size: 200% 200%;
+      animation: gradientShift 6s ease infinite;
+    }
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+  </style>
 </head>
-<body class="bg-gray-50 text-gray-800">
-    <nav class="bg-indigo-600 text-white p-4 shadow-lg">
-        <h1 class="text-2xl font-semibold">OMNI_AI</h1>
-    </nav>
 
-    <main class="container mx-auto mt-10 px-4">
-        {% block content %}
-        {% endblock %}
-    </main>
+<body class="bg-gradient-to-b from-gray-900 via-gray-950 to-black text-gray-100 min-h-screen flex flex-col">
 
-    <footer class="bg-gray-800 text-gray-200 text-center py-4 mt-10">
-        <p>© 2025 OMNI_AI Suite — All rights reserved</p>
-    </footer>
+  <!-- Navbar -->
+  <nav class="gradient-nav text-white p-4 shadow-lg flex items-center justify-between">
+    <h1 class="text-2xl font-bold tracking-wide">🤖 Omni_AI</h1>
+    <button id="theme-toggle" class="bg-white/20 px-3 py-1.5 rounded-xl hover:bg-white/30 transition">
+      <span id="theme-icon">🌙</span>
+    </button>
+  </nav>
+
+  <!-- Main -->
+  <main class="flex-grow flex flex-col justify-center items-center w-full px-6 py-10">
+    {% block content %}
+    {% endblock %}
+  </main>
+
+  <!-- Footer -->
+  <footer class="w-full bg-gray-900 text-center py-4 border-t border-gray-800 text-gray-400 text-sm">
+    © 2025 <span class="text-purple-400 font-semibold">Omni_AI Suite</span> — Powered by Planova Technologies ⚡
+  </footer>
+
+  <script>
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeIcon = document.getElementById('theme-icon');
+    const html = document.documentElement;
+
+    function setTheme(mode) {
+      if (mode === 'dark') {
+        html.classList.add('dark');
+        localStorage.theme = 'dark';
+        themeIcon.textContent = '☀️';
+      } else {
+        html.classList.remove('dark');
+        localStorage.theme = 'light';
+        themeIcon.textContent = '🌙';
+      }
+    }
+
+    if (localStorage.theme === 'dark' ||
+        (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      setTheme('dark');
+    } else {
+      setTheme('light');
+    }
+
+    themeToggle.addEventListener('click', () => {
+      if (html.classList.contains('dark')) setTheme('light');
+      else setTheme('dark');
+    });
+  </script>
 </body>
 </html>
