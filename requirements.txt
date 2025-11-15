@@ -11,3 +11,4 @@ pymupdf
 pdfplumber
 webdriver-manager
 gradio
+gunicorn
