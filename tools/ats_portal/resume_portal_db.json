@@ -4,5 +4,11 @@
     "pw_hash": "2cd9f8a02de44425e2a01c9fc8bf99026e232fa1268ff3c56512f78bad6d7818",
     "default_resume": null,
     "history": []
+  },
+  "trishna-19": {
+    "salt": "162f2d97842be7793c6bd76d20760a67",
+    "pw_hash": "e6089f4f431556ae0a0eb89acefaa785903a0e8706f8a337abda79bf3ada8d4f",
+    "default_resume": null,
+    "history": []
   }
 }

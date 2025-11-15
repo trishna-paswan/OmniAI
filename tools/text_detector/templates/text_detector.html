@@ -1,19 +1,54 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="min-h-screen bg-gray-50 dark:bg-gray-900 flex flex-col items-center justify-center p-8">
-  <h1 class="text-4xl font-extrabold text-indigo-600 mb-6">🧠 AI Text Detector</h1>
-  <p class="text-gray-600 dark:text-gray-300 mb-6 text-center">Upload any <strong>.txt, .docx,</strong> or <strong>.pdf</strong> file to check how likely it is AI-generated.</p>
 
-  <form action="/" method="POST" enctype="multipart/form-data" class="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 w-full max-w-md">
-    <input type="file" name="file" accept=".txt,.pdf,.docx" required class="w-full p-3 border border-gray-300 dark:border-gray-600 rounded mb-4 bg-gray-50 dark:bg-gray-700">
-    <button type="submit" class="w-full py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition">🔍 Analyze</button>
-  </form>
+<main class="flex-grow px-4 py-16">
+  <div class="max-w-3xl mx-auto text-center" data-aos="fade-up">
 
-  {% if result %}
-  <div class="mt-8 bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-lg w-full max-w-2xl text-center">
-    <h2 class="text-2xl font-semibold text-indigo-600 dark:text-indigo-400 mb-2">{{ result }}</h2>
-    <p class="text-gray-700 dark:text-gray-300">{{ explanation }}</p>
+    <!-- Heading -->
+    <h2 class="text-4xl font-extrabold mb-6 text-blue-400">
+      🧠 AI Text Detector
+    </h2>
+
+    <p class="text-gray-400 mb-10 text-lg">
+      Upload a <b>.txt</b>, <b>.docx</b>, or <b>.pdf</b> file.  
+      Omni_AI will analyze how likely the text was written by AI.
+    </p>
+
+    <!-- Upload Form -->
+    <form method="POST" enctype="multipart/form-data"
+          class="bg-gray-900 p-6 rounded-xl shadow-lg border border-gray-800 space-y-4"
+          data-aos="zoom-in">
+
+      <!-- File Upload -->
+      <label class="block text-left text-gray-300 font-medium">Upload File</label>
+      <input type="file" name="file" required
+             accept=".txt,.docx,.pdf"
+             class="w-full p-3 bg-gray-800 text-white rounded-lg border border-gray-700
+                    focus:outline-none focus:ring-2 focus:ring-blue-500"/>
+
+      <!-- Button -->
+      <button type="submit"
+              class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg transition">
+        🔍 Analyze File
+      </button>
+    </form>
+
+    <!-- Result Block -->
+    {% if result %}
+    <div class="mt-10 w-full max-w-3xl mx-auto bg-gray-900 p-8 rounded-xl shadow-lg border border-gray-800"
+         data-aos="fade-up">
+
+      <h3 class="text-3xl font-bold text-blue-400 mb-4">{{ result }}</h3>
+      <p class="text-gray-300 text-lg leading-relaxed">{{ explanation }}</p>
+    </div>
+    {% endif %}
+
+    <!-- Back -->
+    <p class="mt-6 text-sm text-gray-500">
+      Go back to <a href="/" class="text-blue-400 hover:underline">Omni_AI Dashboard</a>
+    </p>
+
   </div>
-  {% endif %}
-</div>
+</main>
+
 {% endblock %}

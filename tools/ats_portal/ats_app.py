@@ -4,6 +4,7 @@
 ATS Resume Analyzer Portal (Admin + User history)
 Part of OMNI_AI Unified Suite
 """
+
 import sys, os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
@@ -117,23 +118,30 @@ def generate_suggestions(resume_text, job_text):
     suggestions = []
     r = (resume_text or "").lower()
     j = (job_text or "").lower()
+
     sections = ["education","experience","skills","projects","certifications","summary"]
     for s in [s for s in sections if s not in r]:
         suggestions.append(f"Consider adding or improving your '{s.title()}' section.")
+
     if len(resume_text or "") < 450:
         suggestions.append("Resume appears short — expand on projects, responsibilities, and results.")
     elif len(resume_text or "") > 3500:
         suggestions.append("Resume appears long — condense to 1–2 pages and focus on relevance.")
+
     strong_verbs = ["led","developed","designed","implemented","managed","created","analyzed","optimized"]
     if not any(v in r for v in strong_verbs):
         suggestions.append("Use action verbs to emphasize impact.")
+
     missing = find_missing_keywords(resume_text, job_text)
     if missing:
         suggestions.append("Include keywords such as: " + ", ".join(missing[:8]))
+
     if "@" not in r:
         suggestions.append("Add a professional email address near the top.")
+
     if not any(x in r for x in ["linkedin","github","portfolio"]):
         suggestions.append("Add LinkedIn/GitHub/portfolio links.")
+
     return suggestions or ["Your resume aligns well with the job description."]
 
 # -------------------------
@@ -142,6 +150,7 @@ def generate_suggestions(resume_text, job_text):
 def register_or_login(username, password):
     if not username or not password:
         return False, "Username and password required."
+
     db = load_db()
     if username in db:
         u = db[username]
@@ -158,32 +167,37 @@ def register_or_login(username, password):
 def analyze_action(session, username, resume_file, set_default, job_desc, about_role, save_analysis):
     if not username: return ("Username required.", "", "", "")
     if not job_desc: return ("Job description required.", "", "", "")
+
     db = load_db()
     resume_text = ""
-    used_default_flag = False
     resume_filename = None
+
     if resume_file:
         fname = getattr(resume_file, "name", "")
         resume_filename = os.path.basename(fname)
+
         if fname.lower().endswith(".pdf"):
             resume_text = extract_text_from_pdf(fname)
         elif fname.lower().endswith(".docx"):
             resume_text = extract_text_from_docx(fname)
         else:
             return ("Unsupported file type.", "", "", "")
+
         if set_default:
             db[username]["default_resume"] = resume_text
             save_db(db)
+
     else:
         if db.get(username, {}).get("default_resume"):
             resume_text = db[username]["default_resume"]
-            used_default_flag = True
         else:
             return ("No resume uploaded and no default found.", "", "", "")
+
     full_job_text = job_desc + ("\n" + about_role if about_role else "")
     score = calculate_ats_score(resume_text, full_job_text)
     missing = find_missing_keywords(resume_text, full_job_text)
     suggestions = generate_suggestions(resume_text, full_job_text)
+
     if save_analysis:
         db[username]["history"].append({
             "timestamp": datetime.utcnow().isoformat(),
@@ -193,49 +207,112 @@ def analyze_action(session, username, resume_file, set_default, job_desc, about_
             "resume_filename": resume_filename
         })
         save_db(db)
-    return ("Analysis complete.", f"ATS Score: **{score}/100**", f"Missing Keywords: {', '.join(missing) or 'None'}", "\n".join(suggestions))
+
+    return (
+        "Analysis complete.",
+        f"### ⭐ ATS Score: **{score}/100**",
+        f"### 🔍 Missing Keywords:\n{', '.join(missing) or 'None'}",
+        "### 📝 Suggestions:\n" + "\n".join(suggestions)
+    )
 
 # -------------------------
-# Gradio UI
+# Modern Glassmorphism UI (Updated)
 # -------------------------
 css = """
-body, .gradio-container { background-color: #0d1117 !important; color: #dbe9f4 !important; }
-.gr-button { background-color: #00b4d8 !important; color: black !important; border-radius: 8px !important; font-weight: 600 !important; }
+body, .gradio-container {
+    background: #0d1117 !important;
+    color: #e6edf3 !important;
+    font-family: 'Inter', sans-serif !important;
+}
+
+.card {
+    backdrop-filter: blur(14px);
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
+    padding: 22px;
+    border-radius: 18px;
+    margin-bottom: 18px;
+}
+
+.gr-button {
+    background: linear-gradient(135deg, #00e0ff, #0077ff) !important;
+    color: black !important;
+    border-radius: 12px !important;
+    font-weight: 700 !important;
+    padding: 12px !important;
+}
+
+input, textarea {
+    background: rgba(255,255,255,0.07) !important;
+    border-radius: 10px !important;
+}
+
 """
 
-with gr.Blocks(css=css, title="ATS Resume Analyzer Portal - OMNI_AI") as ats_app:
+with gr.Blocks(css=css, title="ATS Resume Analyzer • OMNI_AI") as ats_app:
+    
     session = gr.State({})
-    login_panel = gr.Column(visible=True)
-    main_panel = gr.Column(visible=False)
-    login_user = gr.Textbox(label="Username")
-    login_pw = gr.Textbox(label="Password", type="password")
-    login_msg = gr.Markdown()
-    login_btn = gr.Button("Log in / Register")
 
-    username_in = gr.Textbox(label="Username")
-    set_default = gr.Checkbox(label="Set as default resume?")
-    save_analysis = gr.Checkbox(label="Save this analysis?")
-    resume_file = gr.File(label="Upload Resume", file_types=[".pdf", ".docx"])
-    job_desc = gr.Textbox(label="Job Description", lines=6)
-    about_role = gr.Textbox(label="About the Role", lines=3)
-    analyze_btn = gr.Button("Analyze Resume")
-    home_status = gr.Markdown()
-    home_score = gr.Markdown()
-    home_missing = gr.Markdown()
-    home_suggestions = gr.Markdown()
+    # LOGIN PAGE
+    with gr.Column(visible=True) as login_panel:
+        gr.Markdown("<h1 style='text-align:center;'>🔐 ATS Portal Login</h1>")
+        with gr.Column(elem_classes=["card"]):
+            login_user = gr.Textbox(label="Username")
+            login_pw = gr.Textbox(label="Password", type="password")
+            login_msg = gr.Markdown()
+            login_btn = gr.Button("Login / Register")
+
+    # MAIN PORTAL
+    with gr.Column(visible=False) as main_panel:
+        gr.Markdown("<h1 style='text-align:center;'>📄 ATS Resume Analyzer</h1>")
+
+        with gr.Row():
+            with gr.Column(elem_classes=["card"]):
+                username_in = gr.Textbox(label="Username")
+
+                resume_file = gr.File(label="Upload Resume", file_types=[".pdf", ".docx"])
+                set_default = gr.Checkbox(label="Set as default resume?")
+                save_analysis = gr.Checkbox(label="Save this analysis?")
+
+            with gr.Column(elem_classes=["card"]):
+                job_desc = gr.Textbox(label="Job Description", lines=6)
+                about_role = gr.Textbox(label="About the Role", lines=3)
+                analyze_btn = gr.Button("Analyze Resume")
+
+        with gr.Column(elem_classes=["card"]):
+            home_status = gr.Markdown()
+            home_score = gr.Markdown()
+            home_missing = gr.Markdown()
+            home_suggestions = gr.Markdown()
 
     def login_handler(session, username, password):
         success, msg = register_or_login(username, password)
         if success:
             session.update({"username": username})
-            return gr.update(visible=False), gr.update(visible=True), gr.update(value=f"{msg} — Welcome {username}."), session
-        return gr.update(visible=True), gr.update(visible=False), gr.update(value=msg), session
+            return (
+                gr.update(visible=False),
+                gr.update(visible=True),
+                gr.update(value=f"### {msg} — Welcome **{username}**"),
+                session
+            )
+        return (
+            gr.update(visible=True),
+            gr.update(visible=False),
+            gr.update(value=msg),
+            session
+        )
 
-    login_btn.click(fn=login_handler, inputs=[session, login_user, login_pw], outputs=[login_panel, main_panel, login_msg, session])
-    analyze_btn.click(fn=lambda s, u, f, sd, j, a, save: analyze_action(s, u, f, sd, j, a, save),
-                      inputs=[session, username_in, resume_file, set_default, job_desc, about_role, save_analysis],
-                      outputs=[home_status, home_score, home_missing, home_suggestions])
+    login_btn.click(
+        fn=login_handler,
+        inputs=[session, login_user, login_pw],
+        outputs=[login_panel, main_panel, login_msg, session]
+    )
+
+    analyze_btn.click(
+        fn=lambda s, u, f, sd, j, a, save: analyze_action(s, u, f, sd, j, a, save),
+        inputs=[session, username_in, resume_file, set_default, job_desc, about_role, save_analysis],
+        outputs=[home_status, home_score, home_missing, home_suggestions]
+    )
 
 def launch_ats():
-    """Launch ATS Portal standalone"""
     ats_app.launch(server_name="0.0.0.0", server_port=7861)
