@@ -29,6 +29,7 @@ Highlights plagiarised text
 Suggests clean, rephrased alternatives
 
 Ensures academic integrity
+
 ---
 
 ## 🖥️ Demo
