@@ -29,12 +29,13 @@ Highlights plagiarised text
 Suggests clean, rephrased alternatives
 
 Ensures academic integrity
+---
 
-🖥️ Demo
+## 🖥️ Demo
 🌐 Live Link:
 https://omniai-ud7z.onrender.com
 
-🛠️ Tech Stack
+## 🛠️ Tech Stack
 Layer	Technology
 Frontend	HTML5, Tailwind CSS, JavaScript
 Backend	Python (Flask Framework)
@@ -43,7 +44,8 @@ AI/Text Tools	FuzzyWuzzy, Regex
 Document Processing	PyMuPDF, python-docx
 Deployment	Render + Gunicorn
 
-📁 Folder Structure
+## 📁 Folder Structure
+````markdown
 OmniAI/
  ┣ app.py
  ┣ templates/
@@ -63,8 +65,8 @@ OmniAI/
  ┃    ┗ templates/
  ┃       ┗ text_detector.html
  ┗ requirements.txt
-
-🧪 Local Setup
+````
+## 🧪 Local Setup
 1. Clone the Repository
 git clone https://github.com/trishna-paswan/OmniAI.git
 cd OmniAI
@@ -80,10 +82,9 @@ playwright install chromium
 4. Run the App
 python app.py
 
-
 Now visit:
 👉 http://localhost:5000
 
-✨ Author
+## ✨ Author
 
 Made with ❤️ by Trishna Kumari Paswan
